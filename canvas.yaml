@@ -1,0 +1,27 @@
+preset: package
+
+namespace: Dealskoo\Category
+user-auth-provider: App\User
+
+paths:
+  src: src
+  resource: resources
+
+factory:
+  path: database/factories
+
+migration:
+  path: database/migrations
+  prefix: ''
+
+console:
+  namespace: Dealskoo\Category\Console
+
+model:
+  namespace: Dealskoo\Category\Models
+
+provider:
+  namespace: Dealskoo\Category\Providers
+
+testing:
+  namespace: Dealskoo\Category\Tests
