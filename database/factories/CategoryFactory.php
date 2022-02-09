@@ -3,6 +3,7 @@
 namespace Database\Factories\Dealskoo\Category\Models;
 
 use Dealskoo\Category\Models\Category;
+use Dealskoo\Country\Models\Country;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class CategoryFactory extends Factory
@@ -22,7 +23,11 @@ class CategoryFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'slug' => $this->faker->unique()->slug(),
+            'name' => $this->faker->name(),
+            'country_id' => Country::factory()->create(),
+            'index' => $this->faker->numberBetween(0, 10),
+            'parent_id' => $this->faker->numberBetween(0, 10),
         ];
     }
 }
