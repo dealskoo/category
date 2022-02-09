@@ -38,7 +38,7 @@ class CategoryTest extends TestCase
     public function test_children()
     {
         $category = Category::factory()->create();
-        $category1 = Category::factory()->create([
+        Category::factory()->create([
             'parent_id' => $category->id
         ]);
         $this->assertCount(1, $category->children);

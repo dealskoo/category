@@ -3,6 +3,8 @@
 namespace Dealskoo\Category\Http\Controllers\Admin;
 
 use Dealskoo\Admin\Http\Controllers\Controller as AdminController;
+use Dealskoo\Admin\Rules\Slug;
+use Dealskoo\Country\Models\Country;
 use Dealskoo\Category\Models\Category;
 use Illuminate\Http\Request;
 
@@ -77,32 +79,81 @@ class CategoryController extends AdminController
         if (!$request->user()->canDo('categories.show')) {
             abort(403);
         }
+        $countries = Country::all();
+        $categories = Category::all();
         $category = Category::query()->findOrFail($id);
-        return view('category::admin.category.show', ['category' => $category]);
+        return view('category::admin.category.show', ['countries' => $countries, 'categories' => $categories, 'category' => $category]);
     }
 
     public function create(Request $request)
     {
-
+        if (!$request->user()->canDo('categories.create')) {
+            abort(403);
+        }
+        $countries = Country::all();
+        $categories = Category::all();
+        return view('category::admin.category.create', ['countries' => $countries, 'categories' => $categories]);
     }
 
     public function store(Request $request)
     {
-
+        if (!$request->user()->canDo('categories.create')) {
+            abort(403);
+        }
+        $request->validate([
+            'name' => ['required', 'string'],
+            'slug' => ['required', new Slug('categories', 'slug')],
+            'country_id' => ['required', 'exists:countries,id']
+        ]);
+        $category = new Category($request->only([
+            'name',
+            'slug',
+            'country_id',
+            'index',
+            'parent_id'
+        ]));
+        $category->save();
+        return back()->with('success', __('admin::admin.added_success'));
     }
 
     public function edit(Request $request, $id)
     {
-
+        if (!$request->user()->canDo('categories.edit')) {
+            abort(403);
+        }
+        $countries = Country::all();
+        $categories = Category::all();
+        $category = Category::query()->findOrFail($id);
+        return view('category::admin.category.edit', ['countries' => $countries, 'categories' => $categories, 'category' => $category]);
     }
 
     public function update(Request $request, $id)
     {
+        if (!$request->user()->canDo('categories.edit')) {
+            abort(403);
+        }
+        $request->validate([
+            'name' => ['required', 'string'],
+            'slug' => ['required', new Slug('categories', 'slug', $id, 'id')],
+            'country_id' => ['required', 'exists:countries,id']
+        ]);
 
+        $category = Category::query()->findOrFail($id);
+        $category->fill($request->only([
+            'name',
+            'country_id',
+            'index',
+            'parent_id'
+        ]));
+        $category->save();
+        return back()->with('success', __('admin::admin.update_success'));
     }
 
     public function destroy(Request $request, $id)
     {
-
+        if (!$request->user()->canDo('categories.destroy')) {
+            abort(403);
+        }
+        return ['status' => Category::destroy($id)];
     }
 }
