@@ -12,9 +12,7 @@ class CategoryController extends AdminController
 {
     public function index(Request $request)
     {
-        if (!$request->user()->canDo('categories.index')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.index'), 403);
         if ($request->ajax()) {
             return $this->table($request);
         } else {
@@ -76,9 +74,7 @@ class CategoryController extends AdminController
 
     public function show(Request $request, $id)
     {
-        if (!$request->user()->canDo('categories.show')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.show'), 403);
         $countries = Country::all();
         $categories = Category::all();
         $category = Category::query()->findOrFail($id);
@@ -87,9 +83,7 @@ class CategoryController extends AdminController
 
     public function create(Request $request)
     {
-        if (!$request->user()->canDo('categories.create')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.create'), 403);
         $countries = Country::all();
         $categories = Category::all();
         return view('category::admin.category.create', ['countries' => $countries, 'categories' => $categories]);
@@ -97,9 +91,7 @@ class CategoryController extends AdminController
 
     public function store(Request $request)
     {
-        if (!$request->user()->canDo('categories.create')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.create'), 403);
         $request->validate([
             'name' => ['required', 'string'],
             'slug' => ['required', new Slug('categories', 'slug')],
@@ -118,9 +110,7 @@ class CategoryController extends AdminController
 
     public function edit(Request $request, $id)
     {
-        if (!$request->user()->canDo('categories.edit')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.edit'), 403);
         $countries = Country::all();
         $categories = Category::all();
         $category = Category::query()->findOrFail($id);
@@ -129,9 +119,7 @@ class CategoryController extends AdminController
 
     public function update(Request $request, $id)
     {
-        if (!$request->user()->canDo('categories.edit')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.edit'), 403);
         $request->validate([
             'name' => ['required', 'string'],
             'slug' => ['required', new Slug('categories', 'slug', $id, 'id')],
@@ -151,9 +139,7 @@ class CategoryController extends AdminController
 
     public function destroy(Request $request, $id)
     {
-        if (!$request->user()->canDo('categories.destroy')) {
-            abort(403);
-        }
+        abort_if(!$request->user()->canDo('categories.destroy'), 403);
         return ['status' => Category::destroy($id)];
     }
 }
