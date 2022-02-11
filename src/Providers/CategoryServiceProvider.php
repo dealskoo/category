@@ -26,17 +26,19 @@ class CategoryServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        if ($this->app->runningInConsole()) {
+            $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
+
+            $this->publishes([
+                __DIR__ . '/../../resources/lang' => resource_path('lang/vendor/category')
+            ], 'lang');
+        }
+
         $this->loadRoutesFrom(__DIR__ . '/../../routes/admin.php');
 
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'category');
 
-        $this->loadMigrationsFrom(__DIR__ . '/../../database/migrations');
-
         $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'category');
-
-        $this->publishes([
-            __DIR__ . '/../../resources/lang' => resource_path('lang/vendor/category')
-        ], 'lang');
 
         AdminMenu::whereTitle('admin::admin.settings', function ($menu) {
             $menu->route('admin.categories.index', 'category::category.categories', [], ['permission' => 'categories.index']);
