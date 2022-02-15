@@ -2,7 +2,7 @@
 
 namespace Dealskoo\Category\Traits;
 
-trait Category
+trait HasCategory
 {
     public function category()
     {
