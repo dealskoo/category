@@ -2,15 +2,15 @@
 
 namespace Dealskoo\Category\Models;
 
-use Dealskoo\Country\Models\Country;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
+use Dealskoo\Country\Traits\Country;
 
 class Category extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Country;
 
     protected $fillable = [
         'slug',
@@ -19,11 +19,6 @@ class Category extends Model
         'index',
         'parent_id'
     ];
-
-    public function country()
-    {
-        return $this->belongsTo(Country::class);
-    }
 
     public function setSlugAttribute($value)
     {
