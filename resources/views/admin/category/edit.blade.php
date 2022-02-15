@@ -53,7 +53,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="country_id"
                                        class="form-label">{{ __('category::category.country') }}</label>
-                                <select id="country_id" name="country_id" class="form-select" tabindex="3">
+                                <select id="country_id" name="country_id" class="form-control select2" data-toggle="select2" tabindex="3">
                                     @foreach($countries as $country)
                                         <option value="{{ $country->id }}"
                                                 @if($category->country_id == $country->id) selected @endif>{{ $country->name }}</option>
@@ -69,7 +69,7 @@
                             <div class="col-md-6 mb-3">
                                 <label for="parent_id"
                                        class="form-label">{{ __('category::category.parent') }}</label>
-                                <select id="parent_id" name="parent_id" class="form-select" tabindex="5">
+                                <select id="parent_id" name="parent_id" class="form-control select2" data-toggle="select2" tabindex="5">
                                     <option value="">{{ __('category::category.parent_placeholder') }}</option>
                                     @foreach($categories as $cate)
                                         <option value="{{ $cate->id }}"
