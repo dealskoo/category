@@ -8,6 +8,8 @@
                     <ol class="breadcrumb m-0">
                         <li class="breadcrumb-item"><a
                                 href="{{ route('admin.dashboard') }}">{{ __('admin::admin.dashboard') }}</a></li>
+                        <li class="breadcrumb-item"><a href="javascript: void(0);">{{ __('admin::admin.settings') }}</a>
+                        </li>
                         <li class="breadcrumb-item active">{{ __('category::category.categories_list') }}</li>
                     </ol>
                 </div>
