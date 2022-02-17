@@ -19,7 +19,7 @@ class CreateCategoriesTable extends Migration
             $table->string('name');
             $table->unsignedBigInteger('country_id');
             $table->integer('index')->default(0);
-            $table->integer('parent_id')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('country_id')->references('id')->on('countries')->onUpdate('cascade')->onDelete('cascade');
